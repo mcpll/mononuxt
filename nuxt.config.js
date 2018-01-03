@@ -18,7 +18,7 @@ module.exports = {
    */
   plugins: [
     { src: '~plugins/vue-lazyload', ssr: false },
-    { src: '~plugins/pixiPlugins.js', ssr: false }
+    { src: '~plugins/pixiPlugins', ssr: false }
   ],
   /*
   ** Customize the progress bar color
@@ -40,7 +40,6 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
-    },
-    vendor: ['pixi.js']
+    }
   }
 }

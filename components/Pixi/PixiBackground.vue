@@ -5,9 +5,7 @@
 <script>
     /* eslint-disable new-cap,no-unused-vars,no-undef */
     /* global PIXI */
-
     import Slide from './Class/Slide'
-
     export default {
       name: 'pixibackground',
       data: {
@@ -18,19 +16,16 @@
         Slide: null
       },
       mounted () {
-          this.init()
+        this.init()
       },
       methods: {
         init () {
           this.renderer = new PIXI.WebGLRenderer(window.innerWidth, window.innerHeight, { backgroundColor: 0xffffff }, true)
           this.stage = new PIXI.Container()
           this.$refs.bgRenderer.appendChild(this.renderer.view)
-
           this.loader = new PIXI.loaders.Loader()
           this.loader.add('/test7.jpg').load(this.setup)
-
           this.ticker = new PIXI.ticker.Ticker()
-
           this.ticker.stop()
           this.ticker.add((deltaTime) => {
             this.animate()
@@ -38,12 +33,11 @@
           this.ticker.start()
         },
         setup () {
-          let image = new PIXI.Sprite.fromImage('/test7.jpg')
-          console.log(image)
+          let image = Slide({texture: '/test7.jpg'})
           image.x = 0
           image.y = 0
-          this.stage.addChild(image)
-          this._slide = new Slide()
+          image.addShader('', '')
+          this.stage.addChild(image.sprite)
         },
         animate () {
           this.renderer.render(this.stage)
