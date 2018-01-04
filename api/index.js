@@ -5,6 +5,7 @@ import request from 'axios'
 
 export default {
   baseUrl: 'https://gest.studiomonocromo.it/wp-json/wp/v2',
+  menuUrl: 'https://gest.studiomonocromo.it/wp-json/wp-api-menus/v2',
   getPage (slug) {
     return new Promise((resolve, reject) => {
       request.defaults.baseURL = this.baseUrl
@@ -54,6 +55,30 @@ export default {
         const data = [...response.data]
         if (response.status === 200 && response.data.length > 0) {
           resolve(data)
+        } else {
+          reject(response)
+        }
+      })
+    })
+  },
+  getMenus (id) {
+    return new Promise((resolve, reject) => {
+      request.defaults.baseURL = this.menuUrl
+      request.get(`menus/${id}`, {
+        auth: {
+          oauth_consumer_key: 'cWsmy8BUTXHg',
+          oauth_consumer_secret: 'la5Byw4E9UPzoHMXBvQDP2A7D3kdD2XksZEtvzkPfz5c7DqQ',
+          oauth_token: '4Ta3LpETsZRY9kvjGLPESnR9',
+          oauth_token_secret: 'Q1xCyd97kt0IUTJpXbNRItPOm5QYvz8dMSsP5ObGBQo7vg0I'
+        }
+      }).then(response => {
+        const data = [...response.data]
+        if (response.status === 200 && response.data.length > 0) {
+          const filtered = {
+            items: data.items
+          }
+          console.log(filtered)
+          resolve(filtered)
         } else {
           reject(response)
         }

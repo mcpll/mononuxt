@@ -1,5 +1,6 @@
 <template>
   <div>
+    <navigation></navigation>
     <nuxt/>
     <no-ssr>
       <pixibackground></pixibackground>
@@ -10,10 +11,20 @@
 <script>
   import pixibackground from '../components/Pixi/PixiBackground.vue'
   import NoSsr from '../.nuxt/components/no-ssr'
+  import Navigation from '../components/Pixi/Navigation/Navigation'
+  import api from '../api/index'
   export default {
     components: {
+      Navigation,
       NoSsr,
       pixibackground
+    },
+    async nuxtServerInit ({params}) {
+      console.log('menghia!')
+      let menusRes = await api.getMenus(2)
+      return {
+        items: menusRes
+      }
     }
   }
 </script>
