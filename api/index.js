@@ -19,7 +19,6 @@ export default {
       }).then(response => {
         const data = [...response.data][0]
         if (response.status === 200 && response.data.length > 0) {
-          console.log(data)
           const filtered = {
             content: data.content.rendered,
             author: data.author,
@@ -61,10 +60,10 @@ export default {
       })
     })
   },
-  getMenus (id) {
+  getMenu (id) {
     return new Promise((resolve, reject) => {
       request.defaults.baseURL = this.menuUrl
-      request.get(`menus/${id}`, {
+      request.get(`/menus/${id}`, {
         auth: {
           oauth_consumer_key: 'cWsmy8BUTXHg',
           oauth_consumer_secret: 'la5Byw4E9UPzoHMXBvQDP2A7D3kdD2XksZEtvzkPfz5c7DqQ',
@@ -72,12 +71,11 @@ export default {
           oauth_token_secret: 'Q1xCyd97kt0IUTJpXbNRItPOm5QYvz8dMSsP5ObGBQo7vg0I'
         }
       }).then(response => {
-        const data = [...response.data]
-        if (response.status === 200 && response.data.length > 0) {
+        const data = response.data
+        if (response.status === 200) {
           const filtered = {
             items: data.items
           }
-          console.log(filtered)
           resolve(filtered)
         } else {
           reject(response)

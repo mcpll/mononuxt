@@ -12,7 +12,7 @@ const Store = () => new Vuex.Store({
   },
   actions: {
     async nuxtServerInit ({ commit }) {
-      const menuItems = await api.getMenus(2)
+      const menuItems = await api.getMenu(2)
       commit('setMenuItems', menuItems)
     }
   }

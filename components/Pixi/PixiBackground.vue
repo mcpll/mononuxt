@@ -44,7 +44,7 @@
           // uniforms.iChannel1 = { type: 't', value: new PIXI.Texture.fromImage('/grain.jpg') }
           image.x = 0
           image.y = 0
-          // image.addShader(Shader, this.uniforms)
+          image.addShader(Shader, this.uniforms)
           this.stage.addChild(image.sprite)
         },
         animate () {
