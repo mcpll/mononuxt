@@ -17,7 +17,8 @@
           stage: null,
           renderer: null,
           Slide: null,
-          uniforms: {}
+          uniforms: {},
+          App: null
         }
       },
       mounted () {
@@ -27,29 +28,30 @@
         init () {
           this.uniforms.iTime = { type: 'f', value: 0.1 }
           this.uniforms.resolution = { type: 'v2', value: {x: window.width, y: window.height} }
-          this.renderer = new PIXI.WebGLRenderer(window.innerWidth, window.innerHeight, { backgroundColor: 0xffffff }, true)
-          this.stage = new PIXI.Container()
-          this.$refs.bgRenderer.appendChild(this.renderer.view)
-          this.loader = new PIXI.loaders.Loader()
-          this.loader.add('/test7.jpg').add('/grain.jpg').load(this.setup)
-          this.ticker = new PIXI.ticker.Ticker()
-          this.ticker.stop()
-          this.ticker.add((deltaTime) => {
-            this.animate()
+          this.App = new PIXI.Application({
+            width: window.innerWidth,
+            height: window.innerHeight,
+            antialias: true,
+            autoResize: true,
+            backgroundColor: 0xFFFFFF
           })
-          this.ticker.start()
+          this.$refs.bgRenderer.appendChild(this.App.view)
+          console.log('diassa')
+          this.loader = new PIXI.loaders.Loader()
+          this.loader.add('/test7.jpg').load(this.setup)
         },
         setup () {
+          console.log('Pixibg riga 44')
           let image = Slide({texture: '/test7.jpg'})
-          // uniforms.iChannel1 = { type: 't', value: new PIXI.Texture.fromImage('/grain.jpg') }
+          this.App.stage.addChild(image.sprite)
           image.x = 0
           image.y = 0
-          image.addShader(Shader, this.uniforms)
-          this.stage.addChild(image.sprite)
+          image.addShader(Shader, this.uniforms, this.App)
+          // this.App.ticker.add(this.animate())
         },
         animate () {
-          this.renderer.render(this.stage)
-          this.uniforms.iTime.value += 0.1
+          // this.renderer.render(this.stage)
+          // this.uniforms.iTime.value += 0.1
         }
       }
     }

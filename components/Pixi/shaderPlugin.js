@@ -7,8 +7,11 @@
  * http://www.opensource.org/licenses/mit-license
  */
 function createShaderPlugin (name, vertShader, fragShader, uniformDefaults, renderer) {
+  console.log('createShaderPlugin')
   var ShaderPlugin = function (_renderer) {
+    console.log('riga 12')
     PIXI.ObjectRenderer.call(this, _renderer)
+    console.log('_renderer', _renderer)
 
     if (!vertShader) {
       this.vertShader = [
@@ -27,17 +30,20 @@ function createShaderPlugin (name, vertShader, fragShader, uniformDefaults, rend
         '}'
       ].join('\n')
     } else {
+      console.log('riga 33')
       this.vertShader = '#define GLSLIFY 1\n' + vertShader
     }
-
+    console.log('riga 36')
     this.fragShader = '#define GLSLIFY 1\n' + fragShader
     this.uniformDefaults = uniformDefaults
     this._tintAlpha = new Float32Array(4)
   }
+  console.log('riga 41')
   ShaderPlugin.prototype = Object.create(PIXI.ObjectRenderer.prototype)
   ShaderPlugin.prototype.constructor = ShaderPlugin
 
   ShaderPlugin.prototype._initShader = function () {
+    console.log('riga 44')
     var gl = this.renderer.gl
 
     var shader = this.shader = new PIXI.Shader(gl, this.vertShader, this.fragShader)
@@ -55,16 +61,19 @@ function createShaderPlugin (name, vertShader, fragShader, uniformDefaults, rend
   }
 
   ShaderPlugin.prototype.onContextChange = function () {
+    console.log('onContextChange')
     this._initShader()
   }
 
   ShaderPlugin.prototype.start = function () {
+    console.log('start')
     if (!this.shader) {
       this._initShader()
     }
   }
 
   ShaderPlugin.prototype.destroy = function () {
+    console.log('riga 74')
     PIXI.ObjectRenderer.prototype.destroy.call(this)
 
     if (this.shader) {
@@ -79,6 +88,7 @@ function createShaderPlugin (name, vertShader, fragShader, uniformDefaults, rend
   }
 
   ShaderPlugin.prototype.render = function (sprite) {
+    console.log('riga 91')
     // setup
     var shader = this.shader
 
@@ -149,11 +159,15 @@ function createShaderPlugin (name, vertShader, fragShader, uniformDefaults, rend
   }
 
   // register plugin
+  console.log('riga 157')
   PIXI.WebGLRenderer.registerPlugin(name, ShaderPlugin)
+  console.log('riga 159')
   PIXI.CanvasRenderer.registerPlugin(name, PIXI.CanvasSpriteRenderer)
+  console.log('riga 161')
 
   // update renderer if one was created and passed in by user
   if (renderer) {
+    console('if renderer')
     renderer.plugins[name] = renderer.type === PIXI.RENDERER_TYPE.WEBGL
       ? new ShaderPlugin(renderer) : new PIXI.CanvasSpriteRenderer(renderer)
   }
