@@ -1,10 +1,10 @@
 <template>
   <div>
     <navigation></navigation>
-    <nuxt/>
     <no-ssr>
       <pixibackground></pixibackground>
     </no-ssr>
+    <nuxt/>
   </div>
 </template>
 
@@ -42,6 +42,15 @@ html {
   box-sizing: border-box;
   background: black;
   overflow-x: hidden;
+}
+
+html {
+  overflow: hidden;
+}
+
+.container {
+  z-index:1;
+  pointer-events: none;
 }
 
 *, *:before, *:after {

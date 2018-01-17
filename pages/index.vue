@@ -1,17 +1,15 @@
 <template>
   <section class="container">
-    <div>
-      <logo/>
-      <h1 class="title">
-        mononuxt
-      </h1>
-      <h2 class="subtitle">
-        Nuxt.js project
-      </h2>
-      <div class="links">
-        <nuxt-link class="button--green" to="/chi-siamo">Chi Siamo</nuxt-link>
-        <nuxt-link class="button--grey" to="/progetti">Progetti</nuxt-link>
-      </div>
+    <logo/>
+    <h1 class="title">
+      mononuxt
+    </h1>
+    <h2 class="subtitle">
+      Nuxt.js project
+    </h2>
+    <div class="links">
+      <nuxt-link class="button--green" to="/chi-siamo">Chi Siamo</nuxt-link>
+      <nuxt-link class="button--grey" to="/progetti">Progetti</nuxt-link>
     </div>
   </section>
 </template>
@@ -29,10 +27,12 @@ export default {
 <style>
 .container {
   min-height: 100vh;
-  display: flex;
+  display: block;
   justify-content: center;
   align-items: center;
   text-align: center;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .title {

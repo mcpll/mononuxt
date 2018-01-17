@@ -1,6 +1,5 @@
 <template>
   <section class="container">
-    <div>
       <logo/>
       <h1 class="title">
         mononuxt - {{page.title}}
@@ -14,7 +13,6 @@
         <br>
         <nuxt-link to="/progetti" class="button--green">Progetti</nuxt-link>
       </div>
-    </div>
   </section>
 </template>
 
@@ -77,11 +75,12 @@ export default {
 .container {
   background: transparent;
   min-height: 100vh;
-  display: flex;
+  display: block;
   justify-content: center;
   align-items: center;
   text-align: center;
   overflow-x: hidden;
+    z-index: 1;
 }
 
 .title {

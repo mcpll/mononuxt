@@ -26,13 +26,14 @@
       },
       methods: {
         init () {
-          this.uniforms.iTime = { type: 'f', value: 0.1 }
-          this.uniforms.resolution = { type: 'v2', value: {x: window.width, y: window.height} }
+          // this.uniforms.iTime = { type: 'f', value: 0.1 }
+          // this.uniforms.resolution = { type: 'v2', value: {x: window.width, y: window.height} }
           this.App = new PIXI.Application({
             width: window.innerWidth,
             height: window.innerHeight,
             antialias: true,
             autoResize: true,
+            sharedTicker: true,
             backgroundColor: 0xFFFFFF
           })
           this.$refs.bgRenderer.appendChild(this.App.view)
@@ -41,17 +42,14 @@
           this.loader.add('/test7.jpg').load(this.setup)
         },
         setup () {
-          console.log('Pixibg riga 44')
           let image = Slide({texture: '/test7.jpg'})
           this.App.stage.addChild(image.sprite)
           image.x = 0
           image.y = 0
-          image.addShader(Shader, this.uniforms, this.App)
-          // this.App.ticker.add(this.animate())
-        },
-        animate () {
-          // this.renderer.render(this.stage)
-          // this.uniforms.iTime.value += 0.1
+          image.addShader(this.App)
+          this.App.ticker.add(() => {
+            this.App.renderer.render(this.App.stage)
+          })
         }
       }
     }
@@ -59,9 +57,9 @@
 
 <style>
     .pixibackground {
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
-        z-index: -1;
+        z-index: 0;
     }
 </style>

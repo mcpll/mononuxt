@@ -1,5 +1,5 @@
 <template>
-  <section class="container">
+  <section ref="scrollZone" class="container">
     <div>
       <logo/>
       <h1 class="title">
@@ -15,19 +15,28 @@
 
       <div v-for="progetto in progetti" :key="progetto.id">
         <h1>{{progetto.title.rendered}}</h1>
-        <img v-lazy="progetto._embedded['wp:featuredmedia'][0].source_url"/>
+        <img :src="progetto._embedded['wp:featuredmedia'][0].source_url"/>
       </div>
 
     </div>
   </section>
 </template>
 
+
 <script>
+  /* eslint-disable no-undef,no-unused-vars */
+
   import Logo from '~/components/Logo.vue'
   import api from '../../api/index'
   import { TweenMax } from 'gsap'
+  import Scroll from '../../mixins/scroll'
+
+  if (process.browser) {
+    window.VirtualScroll = require('virtual-scroll')
+  }
 
 export default {
+    mixins: [Scroll],
     components: {
       Logo
     },
