@@ -91,13 +91,12 @@ export default {
 
 <style scoped>
 .container {
-  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   background: transparent;
-  overflow-x: hidden;
+  min-height: 100vh;
 }
 
 .title {
@@ -119,16 +118,6 @@ export default {
 
 .links {
   padding-top: 15px;
-}
-
-
-img {
-  opacity: 0;
-  transition: opacity 0.8s;
-}
-
-img[lazy="loaded"] {
-  opacity: 1
 }
 
 </style>
