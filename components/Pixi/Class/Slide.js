@@ -1,7 +1,5 @@
 /* eslint-disable no-undef,new-cap,no-tabs */
 
-import TweenMax from 'gsap'
-
 function create (texture) {
   let sprite = new PIXI.Sprite.fromImage(texture)
   sprite.interactive = true

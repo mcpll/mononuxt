@@ -18,8 +18,8 @@ module.exports = {
    */
   plugins: [
     { src: '~plugins/vue-lazyload', ssr: false },
-    { src: '~plugins/pixiPlugins', ssr: false }
-    // { src: '~plugins/ksvuecrollmagic', ssr: false }
+    { src: '~plugins/pixiPlugins', ssr: false },
+    { src: '~/plugins/ksvuescrollmagic', ssr: false }
   ],
   /*
   ** Customize the progress bar color

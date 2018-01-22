@@ -6,7 +6,6 @@ const scrollMixin = {
         el: this.$refs.scrollZone,
         mouseMultiplier: 0.4
       })
-      this.height = this.$refs.scrollZone.getBoundingClientRect().height
       this.currentY = 0
       this.targetY = 0
       this.ease = 0.1
@@ -16,12 +15,10 @@ const scrollMixin = {
   },
   methods: {
     onScroll (e) {
+      this.height = this.$refs.scrollZone.getBoundingClientRect().height + 500
       this.targetY += e.deltaY
-      console.log('targetY', this.targetY)
       this.targetY = Math.max((this.height - window.innerHeight) * -1, this.targetY)
-      console.log('targetY post', this.targetY)
       this.targetY = Math.min(0, this.targetY)
-      console.log('targetY post post', this.targetY)
     },
     animate () {
       if (this.callbackWhenReachOffset && (this.currentY >= this.targetY - 1 && this.currentY <= this.targetY + 1)) {

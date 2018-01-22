@@ -11,11 +11,10 @@
       <div class="links">
         <nuxt-link class="button--green" to="/chi-siamo">Chi Siamo</nuxt-link>
       </div>
-      
-
       <div v-for="progetto in progetti" :key="progetto.id">
         <h1>{{progetto.title.rendered}}</h1>
-        <img :src="progetto._embedded['wp:featuredmedia'][0].source_url"/>
+        <br>
+        <img ref="pin" class="pin" v-lazy="progetto._embedded['wp:featuredmedia'][0].source_url"/>
       </div>
 
     </div>
@@ -28,7 +27,6 @@
 
   import Logo from '~/components/Logo.vue'
   import api from '../../api/index'
-  import { TweenMax } from 'gsap'
   import Scroll from '../../mixins/scroll'
 
   if (process.browser) {
@@ -65,22 +63,45 @@ export default {
         ]
       }
     },
+    mounted () {
+      this.$nextTick(this.createScrollScene())
+    },
+    methods: {
+      createScrollScene () {
+        let i = 0
+        for (let img of this.$refs.pin) {
+          console.log(this.$refs.pin[i].clientHeight)
+          const scene = new this.$scrollmagic.Scene({
+            triggerElement: img,
+            duration: 300
+          })
+          this.$ksvuescr.$emit('addScene', 'testContainerScene', scene)
+          scene.on('enter', function () {
+            console.log('entro')
+          })
+          scene.on('leave', function () {
+            console.log('esco')
+          })
+          i++
+        }
+      }
+    },
     transition: {
       css: false,
       beforeEnter (el) {
-        TweenMax.set(el, {
+        this.$gsap.TweenMax.set(el, {
           x: window.innerWidth
         })
       },
       enter (el, done) {
-        TweenMax.to(el, 0.5, {
+        this.$gsap.TweenMax.to(el, 0.5, {
           x: 0
         })
         done()
       },
       leave (el, done) {
         console.log(window.innerWidth)
-        TweenMax.to(el, 0.5, {
+        this.$gsap.TweenMax.to(el, 0.5, {
           x: -window.innerWidth,
           onComplete: () => { done() }
         })
@@ -121,10 +142,15 @@ export default {
   padding-top: 15px;
 }
 
+.links a {
+  pointer-events: auto;
+}
 
 img {
   opacity: 0;
   transition: opacity 0.8s;
+  max-width: 500px;
+  margin-bottom: 50px;
 }
 
 img[lazy="loaded"] {
