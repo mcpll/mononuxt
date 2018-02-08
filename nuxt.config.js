@@ -14,12 +14,31 @@ module.exports = {
     ]
   },
   /*
+   ** Env
+   */
+  env: {
+    pages: {
+      it: {
+        contatti: 'contatti',
+        progetti: 'progetti',
+        chiSiamo: 'chi-siamo'
+      },
+      en: {
+        contacts: 'contacts',
+        about: 'about',
+        projects: 'projects'
+      }
+    }
+  },
+  /*
    ** Plugins
    */
   plugins: [
     { src: '~plugins/vue-lazyload', ssr: false },
     { src: '~plugins/pixiPlugins', ssr: false },
-    { src: '~/plugins/ksvuescrollmagic', ssr: false }
+    { src: '~/plugins/ksvuescrollmagic', ssr: false },
+    { src: '~/plugins/i18n.js' },
+    { src: '~/plugins/eventBus', ssr: false }
   ],
   /*
   ** Customize the progress bar color
@@ -41,6 +60,10 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
-    }
+    },
+    vendor: ['vue-i18n']
+  },
+  router: {
+    middleware: 'i18n'
   }
 }

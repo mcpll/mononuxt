@@ -6,10 +6,10 @@ import request from 'axios'
 export default {
   baseUrl: 'https://gest.studiomonocromo.it/wp-json/wp/v2',
   menuUrl: 'https://gest.studiomonocromo.it/wp-json/wp-api-menus/v2',
-  getPage (slug) {
+  getPage (slug, lang) {
     return new Promise((resolve, reject) => {
       request.defaults.baseURL = this.baseUrl
-      request.get(`pages?slug=${slug}`, {
+      request.get(`pages?slug=${slug}&lang=${lang}`, {
         auth: {
           oauth_consumer_key: 'cWsmy8BUTXHg',
           oauth_consumer_secret: 'la5Byw4E9UPzoHMXBvQDP2A7D3kdD2XksZEtvzkPfz5c7DqQ',
@@ -40,10 +40,10 @@ export default {
       })
     })
   },
-  getCaseStudies () {
+  getCaseStudies (lang) {
     return new Promise((resolve, reject) => {
       request.defaults.baseURL = this.baseUrl
-      request.get(`progetti?&_embed`, {
+      request.get(`progetti?lang=${lang}&_embed`, {
         auth: {
           oauth_consumer_key: 'cWsmy8BUTXHg',
           oauth_consumer_secret: 'la5Byw4E9UPzoHMXBvQDP2A7D3kdD2XksZEtvzkPfz5c7DqQ',
@@ -60,7 +60,7 @@ export default {
       })
     })
   },
-  getMenu (id) {
+  getMenu (id, lang) {
     return new Promise((resolve, reject) => {
       request.defaults.baseURL = this.menuUrl
       request.get(`/menus/${id}`, {

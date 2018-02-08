@@ -8,10 +8,15 @@ const scrollMixin = {
       })
       this.currentY = 0
       this.targetY = 0
-      this.ease = 0.1
+      this.ease = 0.02
       this.animate()
       this.vs.on(this.onScroll)
+      this.destroyed = false
     }
+  },
+  beforeDestroy () {
+    this.destroyed = true
+    this.destroy()
   },
   methods: {
     onScroll (e) {
@@ -21,13 +26,16 @@ const scrollMixin = {
       this.targetY = Math.min(0, this.targetY)
     },
     animate () {
-      if (this.callbackWhenReachOffset && (this.currentY >= this.targetY - 1 && this.currentY <= this.targetY + 1)) {
+      if (this.destroyed) {
+        return undefined
+      } else if (this.callbackWhenReachOffset && (this.currentY >= this.targetY - 1 && this.currentY <= this.targetY + 1)) {
         return this.reachOffset()
       } else {
         requestAnimationFrame(this.animate.bind(this))
       }
       this.currentY += this.getRoundedValue((this.targetY - this.currentY) * this.ease)
       let t = 'translateY(' + this.currentY + 'px) translateZ(0)'
+      // console.log(this.$refs.scrollZone)
       let s = this.$refs.scrollZone.style
       s['transform'] = t
       s['webkitTransform'] = t
@@ -45,6 +53,10 @@ const scrollMixin = {
       this.scroolToCallback()
       this.scroolToCallback = null
       this.callbackWhenReachOffset = false
+    },
+    destroy () {
+      this.vs.off(this.onScroll)
+      this.vs.destroy()
     }
   }
 }

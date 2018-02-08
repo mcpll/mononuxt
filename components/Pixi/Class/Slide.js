@@ -1,51 +1,58 @@
 /* eslint-disable no-undef,new-cap,no-tabs */
 
-function create (texture) {
-  let sprite = new PIXI.Sprite.fromImage(texture)
-  sprite.interactive = true
-  // sprite.buttonMode = true
-  return sprite
-}
+export default () => {
+  const container = new PIXI.Container()
+  let spriteBG = new PIXI.Sprite.fromImage('/test7.jpg')
+  let currentSprite = spriteBG
+  let shader = null
+  let displacementSprite = null
+  let slidesArray = []
 
-const Slide = ({texture}) => ({
-  sprite: create(texture),
-  shader: null,
-  displacementSprite: null,
-  rafID: null,
-  rotateSpite: function (_sprit) {
-    // _sprit.rotation += 0.001
-    this.rafID = requestAnimationFrame(this.rotateSpite(_sprit))
-    return this
-  },
-  addShader: function (app) {
-    // Plugin.createShaderPlugin('rect', null, rectShader)
-    // this.sprite.pluginName = 'rect'
-    this.displacementSprite = new PIXI.Sprite.fromImage('clouds.jpg')
-    this.displacementSprite.anchor.set(0.5)
-    this.displacementSprite.texture.baseTexture.wrapMode = PIXI.WRAP_MODES.REPEAT
-    this.displacementSprite.x = window.innerWidth / 2
-    this.displacementSprite.y = window.innerHeight / 2
-    this.shader = new PIXI.filters.DisplacementFilter(this.displacementSprite)
-    this.shader.scale.x = 0
-    this.shader.scale.y = 0
-    this.sprite.filters = [this.shader]
+  container.interactive = true
+  container.addChild(spriteBG)
+
+  container.loadSlides = function loadSlides (slides) {
+    for (let i = 0; i < slides.length; i++) {
+      let slide = new PIXI.Sprite.fromImage(slides[i], true)
+      slidesArray.push(slide)
+      slide.alpha = 0
+      container.addChild(slide)
+    }
+    let graphics = new PIXI.Graphics()
+    graphics.beginFill(0x000000, 0.2)
+    graphics.drawRect(0, 0, window.innerWidth, window.innerHeight)
+    container.addChild(graphics)
+  }
+  container.addShader = function addShader () {
+    displacementSprite = new PIXI.Sprite.fromImage('clouds.jpg')
+    displacementSprite.anchor.set(0.5)
+    displacementSprite.texture.baseTexture.wrapMode = PIXI.WRAP_MODES.REPEAT
+    displacementSprite.x = window.innerWidth / 2
+    displacementSprite.y = window.innerHeight / 2
+    displacementSprite.scale.x = 2
+    displacementSprite.scale.y = 2
+    shader = new PIXI.filters.DisplacementFilter(displacementSprite)
+    container.filters = [shader]
     let ticker = new PIXI.ticker.Ticker()
-    app.stage.addChild(this.displacementSprite)
+    container.addChild(displacementSprite)
 
     ticker.autoStart = true
     ticker.add((delta) => {
-      this.displacementSprite.x += 0.3
-      this.displacementSprite.y += 0.3
+      displacementSprite.x += 0.5 * delta
+      displacementSprite.y += 0.5
     })
-
-    this.sprite.on('pointerdown', (event) => {
-      TweenMax.to(this.shader.scale, 1, { x: '+=' + Math.sin(event.data.global.x) * 1200 + '', y: '+=' + Math.cos(event.data.global.y) * 200 + '' })
+    container.on('pointerdown', (event) => {
+      TweenMax.to(shader.scale, 1, { x: '+=' + Math.sin(event.data.global.x) * 1200 + '', y: '+=' + Math.cos(event.data.global.y) * 200 + '' })
     })
-    this.sprite.on('pointerup', () => {
-      TweenMax.to(this.shader.scale, 1, { x: 0, y: 0 })
+    container.on('pointerup', () => {
+      TweenMax.to(shader.scale, 1, { x: 20, y: 20 })
     })
-    return this
   }
-})
+  container.changeImage = function changeImage (index) {
+    TweenMax.to(currentSprite, 0.5, { alpha: 0 })
+    TweenMax.to(slidesArray[index], 0.5, { alpha: 1 })
+    currentSprite = slidesArray[index]
+  }
 
-export default Slide
+  return container
+}

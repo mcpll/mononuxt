@@ -1,10 +1,9 @@
 <template>
   <div>
     <navigation></navigation>
-    <no-ssr>
+    <!--<no-ssr>
       <pixibackground></pixibackground>
-    </no-ssr>
-    <div id="trigger"></div>
+    </no-ssr>-->
     <nuxt/>
   </div>
 </template>

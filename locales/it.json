@@ -1,0 +1,17 @@
+{
+  "links": {
+    "home": "Home",
+    "about": "chi-siamo",
+    "projects": "progetti",
+    "english": "Versione Inglese",
+    "italian": "Versione Italiana"
+  },
+  "home": {
+    "title": "Benvenuto",
+    "introduction": "Questa è un introduzione in italiano"
+  },
+  "about": {
+    "title": "Chi siamo",
+    "introduction": "Questa pagina è fatta per spiegarti chi siamo."
+  }
+}
