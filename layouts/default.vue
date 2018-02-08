@@ -4,6 +4,7 @@
     <no-ssr>
       <pixibackground></pixibackground>
     </no-ssr>
+    <div id="trigger"></div>
     <nuxt/>
   </div>
 </template>
@@ -85,5 +86,13 @@ html {
 .button--grey:hover {
   color: #fff;
   background-color: #35495e;
+}
+#trigger {
+  position: absolute;
+  border-top: 1px solid black;
+  z-index: 30;
+  width: 100%;
+  left: 0;
+  top:50%;
 }
 </style>

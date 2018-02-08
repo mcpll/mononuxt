@@ -15,7 +15,7 @@ const scrollMixin = {
   },
   methods: {
     onScroll (e) {
-      this.height = this.$refs.scrollZone.getBoundingClientRect().height
+      this.height = this.$refs.scrollZone.getBoundingClientRect().height + 500
       this.targetY += e.deltaY
       this.targetY = Math.max((this.height - window.innerHeight) * -1, this.targetY)
       this.targetY = Math.min(0, this.targetY)
